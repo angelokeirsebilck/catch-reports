@@ -26,6 +26,14 @@ import MainScreen from './screens/main/Main';
 
 const Stack = createStackNavigator();
 
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+
+i18n.defaultLocale = 'en';
+
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

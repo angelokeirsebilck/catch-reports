@@ -24,10 +24,17 @@ import { PrimaryColor, White, Red, DisabledColor } from '../../constants/colors'
 //Components
 import Alert from '../../components/Alert';
 
+// Localization
+import i18n from 'i18n-js';
+import { enTranslations, frTranslations, nlTranslations } from '../../config/localization';
+
+i18n.translations = {
+    en: enTranslations,
+    nl: nlTranslations,
+    fr: frTranslations,
+};
+
 const Landing = ({ navigation, fetchUser, alert, setAlert }) => {
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [error, setError] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const { control, handleSubmit, errors, setValue, setError, clearErrors } = useForm();
 
@@ -96,7 +103,7 @@ const Landing = ({ navigation, fetchUser, alert, setAlert }) => {
                             <View style={styles.input}>
                                 <TextInput
                                     {...props}
-                                    placeholder='Insert e-mail'
+                                    placeholder={i18n.t('insertEmail')}
                                     onChangeText={(val) => {
                                         props.onChange(val);
                                         clearErrors('firebaseError');
@@ -107,15 +114,17 @@ const Landing = ({ navigation, fetchUser, alert, setAlert }) => {
                         )}
                     />
                     {errors.email && errors.email.type === 'required' && (
-                        <Text style={styles.error}>E-mail is required.</Text>
+                        <Text style={styles.error}>{i18n.t('emailIsRequired')}</Text>
                     )}
                     {errors.email && errors.email.type === 'pattern' && (
-                        <Text style={styles.error}>E-mail is in wrong format.</Text>
+                        <Text style={styles.error}>{i18n.t('emailIsInWrongFormat')}</Text>
                     )}
-                    {errors.firebaseError && <Text style={styles.error}>Invalid credentials</Text>}
+                    {errors.firebaseError && (
+                        <Text style={styles.error}>{i18n.t('invalidCredentials')}</Text>
+                    )}
                 </View>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>Password</Text>
+                    <Text style={styles.label}>{i18n.t('password')}</Text>
                     <Controller
                         name='password'
                         control={control}
@@ -127,7 +136,7 @@ const Landing = ({ navigation, fetchUser, alert, setAlert }) => {
                             <View style={styles.input}>
                                 <TextInput
                                     {...props}
-                                    placeholder='Insert password'
+                                    placeholder={i18n.t('insertPassword')}
                                     secureTextEntry
                                     onChangeText={(val) => {
                                         props.onChange(val);
@@ -139,25 +148,27 @@ const Landing = ({ navigation, fetchUser, alert, setAlert }) => {
                         )}
                     />
                     {errors.password && errors.password.type === 'required' && (
-                        <Text style={styles.error}>Password is required.</Text>
+                        <Text style={styles.error}>{i18n.t('passwordIsRequired')}</Text>
                     )}
-                    {errors.firebaseError && <Text style={styles.error}>Invalid credentials</Text>}
+                    {errors.firebaseError && (
+                        <Text style={styles.error}>{i18n.t('invalidCredentials')}</Text>
+                    )}
                 </View>
 
                 <TouchableOpacity
                     disabled={disabled}
                     onPress={handleSubmit(onSignIn)}
                     style={disabled ? styles.btnDisabled : styles.btn}>
-                    <Text style={styles.btnText}>Sign In</Text>
+                    <Text style={styles.btnText}>{i18n.t('signIn')}</Text>
                 </TouchableOpacity>
                 <View style={styles.btnBareContainer}>
-                    <Text>Did not register yet? </Text>
+                    <Text>{i18n.t('didNotRegisterYet')} </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                        <Text style={styles.btnBare}>Sign up</Text>
+                        <Text style={styles.btnBare}>{i18n.t('signUp')}</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('RecoverPassword')}>
-                    <Text style={styles.btnBare}>Forgot password?</Text>
+                    <Text style={styles.btnBare}>{i18n.t('forgotPassword')}</Text>
                 </TouchableOpacity>
 
                 {/* <TouchableOpacity style={styles.btnProvider}>

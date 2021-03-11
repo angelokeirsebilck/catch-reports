@@ -18,6 +18,16 @@ import 'firebase/firestore';
 // Colors
 import { PrimaryColor, White, Red, DisabledColor } from '../../constants/colors';
 
+// Localization
+import i18n from 'i18n-js';
+import { enTranslations, frTranslations, nlTranslations } from '../../config/localization';
+
+i18n.translations = {
+    en: enTranslations,
+    nl: nlTranslations,
+    fr: frTranslations,
+};
+
 const Recover = ({ navigation, setAlert }) => {
     const { control, handleSubmit, errors, setValue, setError } = useForm();
     const [disabled, setDisabled] = useState(false);
@@ -31,7 +41,7 @@ const Recover = ({ navigation, setAlert }) => {
             .then(function () {
                 console.log('Email sent.');
                 navigation.navigate('Landing');
-                setAlert('Password reset email has been sent.');
+                setAlert(i18n.t('emailReset'));
                 setDisabled(false);
             })
             .catch(function (error) {
@@ -57,7 +67,7 @@ const Recover = ({ navigation, setAlert }) => {
                         <View style={styles.input}>
                             <TextInput
                                 {...props}
-                                placeholder='Insert e-mail'
+                                placeholder={i18n.t('insertEmail')}
                                 onChangeText={(val) => {
                                     props.onChange(val);
                                 }}
@@ -66,22 +76,20 @@ const Recover = ({ navigation, setAlert }) => {
                     )}
                 />
                 {errors.email && errors.email.type === 'required' && (
-                    <Text style={styles.error}>E-mail is required.</Text>
+                    <Text style={styles.error}>{i18n.t('emailIsRequired')}</Text>
                 )}
                 {errors.email && errors.email.type === 'pattern' && (
-                    <Text style={styles.error}>E-mail is in wrong format.</Text>
+                    <Text style={styles.error}>{i18n.t('emailIsInWrongFormat')}</Text>
                 )}
                 {errors.firebaseError && (
-                    <Text style={styles.error}>
-                        This email address is not found in our database.
-                    </Text>
+                    <Text style={styles.error}>{i18n.t('emailNotFoundInDB')}</Text>
                 )}
             </View>
             <TouchableOpacity
                 disabled={disabled}
                 onPress={handleSubmit(onRecover)}
                 style={disabled ? styles.btnDisabled : styles.btn}>
-                <Text style={styles.btnText}>Recover Password</Text>
+                <Text style={styles.btnText}>{i18n.t('recoverPW')}</Text>
             </TouchableOpacity>
         </View>
     );

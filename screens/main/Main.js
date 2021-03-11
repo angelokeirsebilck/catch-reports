@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import Translate from '../../config/localization';
+
 const Main = () => {
     const onLogOut = () => {
         firebase

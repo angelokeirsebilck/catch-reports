@@ -17,6 +17,16 @@ import 'firebase/firestore';
 // Colors
 import { PrimaryColor, White, Red } from '../../constants/colors';
 
+// Localization
+import i18n from 'i18n-js';
+import { enTranslations, frTranslations, nlTranslations } from '../../config/localization';
+
+i18n.translations = {
+    en: enTranslations,
+    nl: nlTranslations,
+    fr: frTranslations,
+};
+
 const Register = ({ navigation, fetchUser }) => {
     const { control, handleSubmit, errors, setValue, setError } = useForm();
 
@@ -52,7 +62,7 @@ const Register = ({ navigation, fetchUser }) => {
                         <View style={styles.input}>
                             <TextInput
                                 {...props}
-                                placeholder='Insert name'
+                                placeholder={i18n.t('insertName')}
                                 onChangeText={(val) => {
                                     props.onChange(val);
                                 }}
@@ -61,7 +71,7 @@ const Register = ({ navigation, fetchUser }) => {
                     )}
                 />
                 {errors.name && errors.name.type === 'required' && (
-                    <Text style={styles.error}>Name is required.</Text>
+                    <Text style={styles.error}>{i18n.t('nameIsRequired')}</Text>
                 )}
             </View>
             <View style={styles.inputGroup}>
@@ -78,7 +88,7 @@ const Register = ({ navigation, fetchUser }) => {
                         <View style={styles.input}>
                             <TextInput
                                 {...props}
-                                placeholder='Insert e-mail'
+                                placeholder={i18n.t('insertEmail')}
                                 onChangeText={(val) => {
                                     props.onChange(val);
                                 }}
@@ -87,19 +97,15 @@ const Register = ({ navigation, fetchUser }) => {
                     )}
                 />
                 {errors.email && errors.email.type === 'required' && (
-                    <Text style={styles.error}>E-mail is required.</Text>
+                    <Text style={styles.error}>{i18n.t('emailIsRequired')}</Text>
                 )}
                 {errors.email && errors.email.type === 'pattern' && (
-                    <Text style={styles.error}>E-mail is in wrong format.</Text>
+                    <Text style={styles.error}>{i18n.t('emailIsInWrongFormat')}</Text>
                 )}
-                {errors.firebase && (
-                    <Text style={styles.error}>
-                        The email address is already in use by another account.
-                    </Text>
-                )}
+                {errors.firebase && <Text style={styles.error}>{i18n.t('emailAlreadyInUse')}</Text>}
             </View>
             <View style={styles.inputGroup}>
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>{i18n.t('password')}</Text>
                 <Controller
                     name='password'
                     control={control}
@@ -113,7 +119,7 @@ const Register = ({ navigation, fetchUser }) => {
                             <TextInput
                                 {...props}
                                 secureTextEntry
-                                placeholder='Insert password'
+                                placeholder={i18n.t('insertPassword')}
                                 onChangeText={(val) => {
                                     props.onChange(val);
                                 }}
@@ -122,23 +128,20 @@ const Register = ({ navigation, fetchUser }) => {
                     )}
                 />
                 {errors.password && errors.password.type === 'required' && (
-                    <Text style={styles.error}>Password is required.</Text>
+                    <Text style={styles.error}>{i18n.t('passwordIsRequired')}</Text>
                 )}
                 {errors.password && errors.password.type === 'pattern' && (
-                    <Text style={styles.error}>
-                        Password should contain atleast one digit, one lower case character, one
-                        uppercase character and be atleast 8 characters long.
-                    </Text>
+                    <Text style={styles.error}>{i18n.t('passwordRegEx')}</Text>
                 )}
             </View>
 
             <TouchableOpacity onPress={handleSubmit(onRegister)} style={styles.btn}>
-                <Text style={styles.btnText}>Register</Text>
+                <Text style={styles.btnText}>{i18n.t('register')}</Text>
             </TouchableOpacity>
             <View style={styles.btnBareContainer}>
-                <Text>Already registered? </Text>
+                <Text>{i18n.t('alreadyRegistered')} </Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Landing')}>
-                    <Text style={styles.btnBare}>Sign In</Text>
+                    <Text style={styles.btnBare}>{i18n.t('signIn')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
